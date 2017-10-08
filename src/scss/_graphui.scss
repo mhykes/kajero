@@ -22,9 +22,9 @@
 
         &.selected {
             font-weight: bold;
-            color: $text-black;
+            color: $text-dark;
             @include block-border;
-            border: 1px dashed $text-black;
+            border: 1px dashed $text-dark;
             cursor: default;
         }
     }
@@ -63,7 +63,7 @@
     }
 
     .visualiser {
-        background-color: $background-grey;
+        background-color: $background-medium;
         padding: .5em;
         margin-bottom: .5em;
 
@@ -83,7 +83,7 @@
             height: inherit;
         }
         text {
-            fill: $text-black;
+            fill: $text-dark;
         }
     }
 

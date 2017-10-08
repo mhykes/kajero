@@ -18,9 +18,9 @@
 
         &.selected {
             font-weight: bold;
-            color: $text-black;
+            color: $text-dark;
             @include block-border;
-            border: 1px dashed $text-black;
+            border: 1px dashed $text-dark;
             cursor: default;
         }
     }

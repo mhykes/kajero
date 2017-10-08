@@ -2,7 +2,7 @@
 
 body {
     background: $background-col;
-    color: $text-black;
+    color: $text-dark;
     font-family: "Andada", serif;
     @include respond-to($size-md) {
         font-size: 1.2em;
@@ -70,7 +70,7 @@ hr {
 }
 
 .top-sep {
-    border-top: 2px dashed $text-black;
+    border-top: 2px dashed $text-dark;
     margin: 1.5em 0;
 }
 
@@ -82,7 +82,7 @@ a {
     text-decoration: none;
     border-bottom: 1px dashed $text-light;
     font-weight: bold;
-    color: $text-black;
+    color: $text-dark;
 }
 
 a:visited {
@@ -127,12 +127,12 @@ pre, .codeBlock, .resultBlock, .graphBlock {
             height: inherit;
         }
         text {
-            fill: $text-black;
+            fill: $text-dark;
         }
     }
 
     .resultBlock {
-        background-color: $background-grey;
+        background-color: $background-medium;
     }
 
 }
@@ -153,7 +153,7 @@ pre, .codeBlock, .resultBlock, .graphBlock {
 
 textarea {
     width: 100%;
-    color: $text-black;
+    color: $text-dark;
     padding: .5em;
     outline: none;
     height: 300px;
