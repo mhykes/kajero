@@ -3,7 +3,7 @@ var gutil = require('gulp-util');
 var watchify = require('watchify');
 var babelify = require('babelify');
 var browserify = require('browserify');
-var browserSync = require('browser-sync').create();
+//var browserSync = require('browser-sync').create();
 var source = require('vinyl-source-stream');
 var sass = require('gulp-sass');
 
@@ -28,7 +28,7 @@ bundler.transform({
 }, 'uglifyify');
 
 // Recompile on updates.
-bundler.on('update', bundle);
+//bundler.on('update', bundle);
 
 function bundle() {
     gutil.log("Recompiling JS...");
@@ -36,12 +36,12 @@ function bundle() {
     return bundler.bundle()
         .on('error', function(err) {
             gutil.log(err.message);
-            browserSync.notify("Browserify error!");
+            //browserSync.notify("Browserify error!");
             this.emit("end");
         })
         .pipe(source('bundle.js'))
-        .pipe(gulp.dest('./src/dist'))
-        .pipe(browserSync.stream({once: true}));
+        .pipe(gulp.dest('./src/dist'));
+        //.pipe(browserSync.stream({once: true}));
 }
 
 // Gulp task aliases
@@ -59,16 +59,53 @@ gulp.task('sass', function() {
         .on('error', function(err) {
             gutil.log(err.message);
         })
-        .pipe(gulp.dest('./src/dist'))
-        .pipe(browserSync.stream({once: true}));
+        .pipe(gulp.dest('./src/dist'));
+        //.pipe(browserSync.stream({once: true}));
 });
 
-// Bundle and serve page
-gulp.task('default', ['sass', 'bundle'], function() {
-    gulp.watch('./src/scss/*.scss', ['sass']);
-    browserSync.init({
-        server: './src'
+
+// Generate test html on updates.
+//bundler.on('update', genTest);
+
+function genTest(cb) {
+    gutil.log("Generating test html...");
+    
+    var exec = require('child_process').exec;
+    var fileName = 'test1';
+    return exec('npm run generate html '+fileName+'.md', function (err, stdout, stderr) {
+        //console.log(stdout);
+        console.log(stderr);
+        // strip off initial lines that contain the command
+        let startOfHtml = stdout.indexOf('<!DOCTYPE');
+        if (startOfHtml == -1) {
+            console.log('ERROR:  No html found in stdout!');
+        } else {
+            let outHtml = stdout.substr(startOfHtml);
+            let outFile = fileName+'.html';
+            let fs = require('fs'); 
+            fs.writeFile('./'+outFile, outHtml, (fileErr) => {
+                if (fileErr) {
+                    console.log(fileErr);
+                    err = err || fileErr;
+                } else {
+                    console.log('The file '+outFile+' has been saved!');                
+                }
+            });
+        }
+        if(cb && typeof cb == 'function') {
+            cb(err);
+        }
     });
+}
+
+// Bundle and serve page
+gulp.task('default', ['sass', 'bundle'], function(cb) {
+    //gulp.watch('./src/scss/*.scss', ['sass']);
+    //browserSync.init({
+    //    server: './src'
+    //});
+    return genTest(cb);
+    
 });
 
 /*
