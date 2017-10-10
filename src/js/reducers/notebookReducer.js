@@ -2,6 +2,7 @@ import Immutable from 'immutable';
 import Jutsu from 'jutsu';
 import { parse } from '../markdown';
 import { kajeroHomepage } from '../config';
+import { notebookMode } from '../config';
 import {
     LOAD_MARKDOWN,
     UPDATE_BLOCK,
@@ -62,9 +63,11 @@ export default function notebook(state = initialState, action) {
                 newBlock.content = '// New code block';
                 newBlock.language = 'javascript';
                 newBlock.option = 'runnable';
+                newBlock.mode = notebookMode;
             } else if (blockType === 'graph') {
                 newBlock.language = 'javascript';
                 newBlock.option = 'runnable';
+                newBlock.mode = notebookMode;
                 newBlock.content = 'return graphs.pieChart(data);';
                 newBlock.graphType = 'pieChart';
                 newBlock.dataPath = 'data';

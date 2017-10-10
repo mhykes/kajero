@@ -86,7 +86,7 @@ class CodeBlock extends Block {
     }
 
     renderViewerMode() {
-        const { block, hasBeenRun, result, editable } = this.props;
+        const { block, hasBeenRun, result, editable, mode } = this.props;
         let buttons = this.getButtons();
         const runButton = this.getRunButton();
         const optionButton = this.getOptionButton();
@@ -98,12 +98,21 @@ class CodeBlock extends Block {
             buttons.unshift(optionButton);
             buttons.unshift(runButton);
         }
+        alert("mode:"+mode);
+        const codeBlockButtons = (
+            <div className="editor-buttons">
+                {mode == "DEV" ? buttons : null}
+            </div>
+        );
+        const resultBlockButtons = (
+            <div className="editor-buttons">
+                {hideBlock || mode == "DEV" ? buttons : null}
+            </div>
+        );
         return (
             <div className={'codeContainer' + containerClass}>
                 <div className="codeBlock">
-                    <div className="editor-buttons">
-                        {buttons}
-                    </div>
+                    {codeBlockButtons}
                     <div onClick={this.enterEdit}
                         dangerouslySetInnerHTML={this.rawMarkup(block)}>
                     </div>
@@ -112,9 +121,7 @@ class CodeBlock extends Block {
                     id={"kajero-graph-" + block.get('id')}>
                 </div>
                 <div hidden={!hasBeenRun} className="resultBlock">
-                    <div className="editor-buttons">
-                        {hideBlock ? buttons : null}
-                    </div>
+                    {resultBlockButtons}
                     <Visualiser
                         data={result}
                         useHljs='true'

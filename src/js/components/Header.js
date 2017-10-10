@@ -28,8 +28,8 @@ class Header extends Component {
     }
 
     render() {
-        const { metadata, editable, undoSize, dispatch } = this.props;
-        const title = metadata.get('title');
+        const { metadata, editable, mode, undoSize, dispatch } = this.props;
+        const title = mode.length>0?mode+':'+metadata.get('title'):metadata.get('title');
         const icon = editable ? "fa-newspaper-o" : "fa-pencil";
         document.title = title;
         const saveButton = (
@@ -41,18 +41,33 @@ class Header extends Component {
             <i className="fa fa-rotate-left" onClick={this.undoClicked} title="Undo">
             </i>
         );
+        const lockButton = (
+            <i className="fa fa-lock" onClick={this.toggleSaveClicked}
+                title="Locked">
+            </i>
+        );
         const changesMade = editable && undoSize > 0;
+        const editControls = (
+            <span className="controls">
+                {changesMade ? undoButton : null}
+                {changesMade ? saveButton : null}
+                <i className={'fa ' + icon} onClick={this.toggleEditClicked}
+                    title={editable ? "Exit edit mode" : "Enter edit mode"}>
+                </i>
+            </span>
+        );
+        const sealedControls = (
+            <span className="controls">
+                <div style={{ width:"30px",height:"30px",border:"1px solid red",backgroundColor:"orange"}}></div>
+            </span>
+        );
+        const controls = mode==='DEV' ? editControls : sealedControls;
+        
         return (
             <div>
                 <Title title={title} editable={editable} dispatch={dispatch} />
-                <span className="controls">
-                    {changesMade ? undoButton : null}
-                    {changesMade ? saveButton : null}
-                    <i className={'fa ' + icon} onClick={this.toggleEditClicked}
-                        title={editable ? "Exit edit mode" : "Enter edit mode"}>
-                    </i>
-                </span>
-                <Metadata editable={editable} metadata={metadata} dispatch={dispatch} />
+                {controls}
+                <Metadata editable={editable} metadata={metadata} dispatch={dispatch} mode={mode} />
             </div>
         );
     }

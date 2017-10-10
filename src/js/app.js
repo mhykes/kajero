@@ -11,7 +11,7 @@ import Notebook from './Notebook';
 const store = compose(
     applyMiddleware(thunk)
 )(createStore)(NotebookReducer);
-
+console.log('App',store.getState());
 render(
     <Provider store={store}>
         <div>

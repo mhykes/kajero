@@ -28,13 +28,14 @@ class Notebook extends Component {
     }
 
     render() {
-        const { editable, saving, activeBlock } = this.props;
+        const { editable, saving, activeBlock, mode } = this.props;
+        console.log('Notebook',this);
         const cssClass = editable ? ' editable' : '';
         const notebookView = (
             <div className={'pure-u-1 pure-u-md-3-4 pure-u-lg-2-3' + cssClass}>
-                <Header editable={editable} />
+                <Header editable={editable} mode={mode} />
                 <hr className="top-sep"></hr>
-                <Content editable={editable} activeBlock={activeBlock} />
+                <Content editable={editable} mode={mode} activeBlock={activeBlock} />
                 <Footer />
             </div>
         );

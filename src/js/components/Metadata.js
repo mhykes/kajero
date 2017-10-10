@@ -19,7 +19,7 @@ export default class Metadata extends Component {
     }
 
     render() {
-        const { editable, metadata, dispatch } = this.props;
+        const { editable, metadata, mode, dispatch } = this.props;
         const author = metadata.get('author');
         const date = metadata.get('created');
         if (editable) {
@@ -44,15 +44,23 @@ export default class Metadata extends Component {
                 </div>
             );
         }
+        const byline = (
+            <span className="metadata-item">
+                <i className="fa fa-user"></i>{'\u00a0' + author}
+            </span>
+        );
+        const seperator = (
+            <span className="metadata-sep">{'\u00a0//\u00a0'}</span>            
+        );
+        const published = (
+            <span className="metadata-item">
+                <i className="fa fa-clock-o"></i>{'\u00a0' + date}
+            </span>
+        );
+        const meta = mode==='DEV' ? [byline,seperator,published] : published;
         return (
             <div className="metadata">
-                <span className="metadata-item">
-                    <i className="fa fa-user"></i>{'\u00a0' + author}
-                </span>
-                <span className="metadata-sep">{'\u00a0//\u00a0'}</span>
-                <span className="metadata-item">
-                    <i className="fa fa-clock-o"></i>{'\u00a0' + date}
-                </span>
+                {meta}
             </div>
         );
     }

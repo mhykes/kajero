@@ -5,6 +5,7 @@ import reducer, { initialState } from './notebookReducer';
 import * as markdown from '../markdown';
 import * as actions from '../actions';
 import { kajeroHomepage } from '../config';
+import { notebookMode } from '../config';
 
 function handleFirstChange(state) {
     return state.set(
